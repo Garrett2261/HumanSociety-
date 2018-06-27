@@ -10,7 +10,7 @@ namespace HumaneSociety
     {
         public static void RunEmployeeQueries(Employee employee, string v)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
         public static Client GetClient(string userName, string password)
@@ -25,7 +25,12 @@ namespace HumaneSociety
 
         public static object GetAnimalByID(int iD)
         {
-            throw new NotImplementedException();
+            //var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalData = from entry in db.Animals where entry.ID == iD select entry;
+            return animalData;
+
+            
         }
 
         public static void Adopt(object animal, Client client)
@@ -40,7 +45,10 @@ namespace HumaneSociety
 
         public static object GetStates()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var usStates = from entry in db.USStates select entry;
+
+
         }
 
         public static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
