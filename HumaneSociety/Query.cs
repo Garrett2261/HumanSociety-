@@ -101,7 +101,8 @@ namespace HumaneSociety
 
         public static object GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalShots = from entry in db.Animals m
         }
 
         public static void UpdateShot(string v, Animal animal)
