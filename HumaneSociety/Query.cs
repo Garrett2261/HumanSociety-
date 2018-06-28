@@ -102,7 +102,8 @@ namespace HumaneSociety
         public static object GetShots(Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalShots = from entry in db.Animals m
+            var animalShots = from entry in db.AnimalShotJunctions where entry.Animal_ID == animal.ID select entry;
+            return animalShots;
         }
 
         public static void UpdateShot(string v, Animal animal)
