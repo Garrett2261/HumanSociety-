@@ -124,11 +124,13 @@ namespace HumaneSociety
         public static int? GetBreed()
         {
             throw new NotImplementedException();
+            //Chris is working on
         }
 
         public static int? GetLocation()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalLocation = from entry in db.Rooms where entry.name == db.Animal
         }
 
         public static int? GetDiet()
