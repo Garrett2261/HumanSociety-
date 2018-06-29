@@ -129,8 +129,15 @@ namespace HumaneSociety
 
         public static int? GetLocation()
         {
+            Room room = new Room();
+            room.name = UserInterface.GetStringData("name", "room");
+            room.building = UserInterface.GetStringData("name", "building");
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalLocation = from entry in db.Rooms where entry.name == db.Animal
+            db.Rooms.InsertOnSubmit(room);
+            db.SubmitChanges();
+            var animalLocation = (from entry in db.Rooms where entry.name == room.name && entry.building == room.building select entry.ID).First();
+            return animalLocation;
+
         }
 
         public static int? GetDiet()
