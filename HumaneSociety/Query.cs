@@ -35,7 +35,7 @@ namespace HumaneSociety
 
         public static void Adopt(object animal, Client client)
         {
-            throw new NotImplementedException();
+            
         }
 
         public static object RetrieveClients()
@@ -45,8 +45,8 @@ namespace HumaneSociety
 
         public static object GetStates()
         {
-            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var usStates = from entry in db.USStates select entry;
+            //Chris 
+
 
 
         }
