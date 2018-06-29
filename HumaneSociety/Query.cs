@@ -145,7 +145,11 @@ namespace HumaneSociety
 
         public static int? GetDiet()
         {
-            
+            DietPlan diet = new DietPlan();
+            diet.food = UserInterface.GetStringData("name", "food");
+            diet.amount = UserInterface.GetIntegerData("name", "amount");
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalDiet = from entry in db.DietPlans where entry.food == 
         }
 
         public static void AddAnimal(Animal animal)
