@@ -118,7 +118,9 @@ namespace HumaneSociety
 
         public static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Animals.DeleteOnSubmit(animal);
+            db.SubmitChanges();
         }
 
         public static int? GetBreed()
@@ -142,7 +144,7 @@ namespace HumaneSociety
 
         public static int? GetDiet()
         {
-            throw new NotImplementedException();
+            
         }
 
         public static void AddAnimal(Animal animal)
@@ -152,7 +154,8 @@ namespace HumaneSociety
 
         public static Employee EmployeeLogin(string userName, string password)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
         }
 
         public static Employee RetrieveEmployeeUser(string email, int employeeNumber)
