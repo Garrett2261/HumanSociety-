@@ -43,11 +43,11 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        public static object GetStates()
+        public static IQueryable<USState> GetStates()
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var usStates = from entry in db.USStates select entry;
-
+            var usStates = from item in db.USStates select item;
+            return usStates;
 
         }
 
@@ -99,7 +99,7 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        public static object GetShots(Animal animal)
+        public static object GetShots(Animal animal) //Garret
         {
             throw new NotImplementedException();
         }
@@ -121,7 +121,9 @@ namespace HumaneSociety
 
         public static int? GetBreed()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalData = from entry in db.Animals where entry.breed == breed select entry;
+            return animalData;
         }
 
         public static int? GetLocation()
@@ -136,7 +138,9 @@ namespace HumaneSociety
 
         public static void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
 
         public static Employee EmployeeLogin(string userName, string password)
