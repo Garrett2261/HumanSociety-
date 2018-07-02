@@ -84,7 +84,10 @@ namespace HumaneSociety
 
         public static void UpdateFirstName(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
+            clientData.First().firstName = client.firstName;
+            db.SubmitChanges();
         }
 
         public static object GetPendingAdoptions()
@@ -94,7 +97,10 @@ namespace HumaneSociety
 
         public static void UpdateLastName(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
+            clientData.First().lastName = client.lastName;
+            db.SubmitChanges();
         }
 
         public static void UpdateAdoption(bool v, ClientAnimalJunction clientAnimalJunction)
