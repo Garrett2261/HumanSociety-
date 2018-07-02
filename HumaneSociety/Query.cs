@@ -149,7 +149,8 @@ namespace HumaneSociety
             diet.food = UserInterface.GetStringData("name", "food");
             diet.amount = UserInterface.GetIntegerData("name", "amount");
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalDiet = from entry in db.DietPlans where entry.food == 
+            var animalDiet = (from entry in db.DietPlans where entry.food == diet.food && entry.amount == diet.amount select entry.ID).First();
+            return animalDiet;
         }
 
         public static void AddAnimal(Animal animal)
