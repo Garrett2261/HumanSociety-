@@ -56,7 +56,7 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        public static void updateClient(Client client)
+        public static void UpdateClient(Client client)
         {
             throw new NotImplementedException();
         }
