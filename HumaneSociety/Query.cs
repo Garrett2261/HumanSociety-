@@ -79,7 +79,10 @@ namespace HumaneSociety
 
         public static void UpdateAddress(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
+            clientData.First().userAddress = client.userAddress;
+            db.SubmitChanges();
         }
 
         public static void UpdateFirstName(Client client)
