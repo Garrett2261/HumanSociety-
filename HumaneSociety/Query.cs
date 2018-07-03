@@ -81,7 +81,10 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
-            clientData.First().userAddress = client.userAddress;
+            clientData.First().UserAddress1.addessLine1 = client.UserAddress1.addessLine1;
+            clientData.First().UserAddress1.addressLine2 = client.UserAddress1.addressLine2;
+            clientData.First().UserAddress1.zipcode = client.UserAddress1.zipcode;
+            clientData.First().UserAddress1.USStates = client.UserAddress1.USStates;
             db.SubmitChanges();
         }
 
@@ -95,7 +98,8 @@ namespace HumaneSociety
 
         public static object GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var pendingAdoptions = from entry in db.Animals where 
         }
 
         public static void UpdateLastName(Client client)
@@ -120,7 +124,7 @@ namespace HumaneSociety
 
         public static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            
         }
 
         public static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
