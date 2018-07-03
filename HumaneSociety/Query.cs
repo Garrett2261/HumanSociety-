@@ -35,7 +35,7 @@ namespace HumaneSociety
 
         public static void Adopt(object animal, Client client)
         {
-            
+            //look up how to add a column to a table and then add a fee paid column to the ClientAnimalJunction table
         }
 
         public static object RetrieveClients()
@@ -118,7 +118,9 @@ namespace HumaneSociety
 
         public static object GetPendingAdoptions()
         {
-            
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var pendingAdoptions = from entry in db.ClientAnimalJunctions where entry.approvalStatus == "pending" select entry;
+            return pendingAdoptions;
         }
 
         public static void UpdateLastName(Client client)
@@ -161,8 +163,7 @@ namespace HumaneSociety
 
         public static int? GetBreed()
         {
-            throw new NotImplementedException();
-            //Chris is working on
+            
         }
 
         public static int? GetLocation()
