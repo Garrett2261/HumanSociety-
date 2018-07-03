@@ -69,7 +69,16 @@ namespace HumaneSociety
 
         public static void UpdateClient(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData1 = from entry in db.Clients where entry.pass == client.pass select entry;
+            var clientData2 = from entry in db.Clients where entry.income == client.income select entry;
+            var clientData3 = from entry in db.Clients where entry.kids == client.kids select entry;
+            var clientData4 = from entry in db.Clients where entry.homeSize == client.homeSize select entry;
+            clientData1.First().pass = client.pass;
+            clientData2.First().income = client.income;
+            clientData3.First().kids = client.kids;
+            clientData4.First().homeSize = client.homeSize;
+            db.SubmitChanges();
         }
 
         public static void UpdateUsername(Client client)
