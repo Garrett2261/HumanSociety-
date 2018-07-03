@@ -53,7 +53,18 @@ namespace HumaneSociety
 
         public static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Client client = new Client();
+            client.firstName = firstName;
+            client.lastName = lastName;
+            client.userName = username;
+            client.pass = password;
+            client.email = email;
+            client.UserAddress1.addessLine1 = streetAddress;
+            client.UserAddress1.zipcode = zipCode;
+            client.UserAddress1.USStates = state;
+            db.Clients.InsertOnSubmit(client);
+            db.SubmitChanges();
         }
 
         public static void UpdateClient(Client client)
@@ -98,8 +109,7 @@ namespace HumaneSociety
 
         public static object GetPendingAdoptions()
         {
-            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var pendingAdoptions = from entry in db.Animals where 
+            
         }
 
         public static void UpdateLastName(Client client)
