@@ -163,7 +163,12 @@ namespace HumaneSociety
 
         public static int? GetBreed()
         {
-            
+            Breed breed = new Breed();
+            breed.breed1 = UserInterface.GetStringData("name", "breed");
+            breed.pattern = UserInterface.GetStringData("name", "pattern");
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalBreed = (from entry in db.Breeds where entry.breed1 == breed.breed1 && entry.pattern == breed.pattern select entry.ID).First();
+            return animalBreed;
         }
 
         public static int? GetLocation()
