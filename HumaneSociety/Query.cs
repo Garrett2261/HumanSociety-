@@ -228,6 +228,9 @@ namespace HumaneSociety
         public static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Employee employee = new Employee();
+            var employeeUser = (from entry in db.Employees where entry.email == email && entry.employeeNumber == employeeNumber select entry).First();
+            return employeeUser;
         }
 
         public static void AddUsernameAndPassword(Employee employee)
