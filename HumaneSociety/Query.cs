@@ -37,9 +37,15 @@ namespace HumaneSociety
             
         }
 
-        public static void Adopt(object animal, Client client)
+        public static void Adopt(Animal animal, Client client)
         {
-            //look up how to add a column to a table and then add a fee paid column to the ClientAnimalJunction table
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            ClientAnimalJunction clientAnimalJunction = new ClientAnimalJunction();
+            clientAnimalJunction.animal = animal.ID;
+            clientAnimalJunction.client = client.ID;
+            clientAnimalJunction.approvalStatus = "pending";
+            db.ClientAnimalJunctions.InsertOnSubmit(clientAnimalJunction);
+            db.SubmitChanges();
         }
 
         public static object RetrieveClients()
@@ -216,7 +222,7 @@ namespace HumaneSociety
 
         public static void AddUsernameAndPassword(Employee employee)
         {
-            throw new NotImplementedException();
+            
         }
 
         public static bool CheckEmployeeUserNameExist(string username)
