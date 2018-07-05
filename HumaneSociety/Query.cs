@@ -15,7 +15,10 @@ namespace HumaneSociety
 
         public static Client GetClient(string userName, string password)
         {
-            
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Client client = new Client();
+            var newClient = (from entry in db.Clients where entry.userName == userName && entry.pass == password select entry).First();
+            return newClient;
         }
 
         public static IQueryable<ClientAnimalJunction> GetUserAdoptionStatus(Client client)
