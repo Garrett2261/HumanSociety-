@@ -50,7 +50,8 @@ namespace HumaneSociety
 
         public static object RetrieveClients()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var 
         }
 
         public static object GetStates()
@@ -143,7 +144,7 @@ namespace HumaneSociety
 
         public static void UpdateAdoption(bool v, ClientAnimalJunction clientAnimalJunction)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
         public static object GetShots(Animal animal)
@@ -155,12 +156,12 @@ namespace HumaneSociety
 
         public static void UpdateShot(string v, Animal animal)
         {
-            
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
         public static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
         public static void RemoveAnimal(Animal animal)
@@ -217,17 +218,17 @@ namespace HumaneSociety
 
         public static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
         public static void AddUsernameAndPassword(Employee employee)
         {
-            
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
         public static bool CheckEmployeeUserNameExist(string username)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
     }
 }
