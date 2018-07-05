@@ -15,6 +15,7 @@ namespace HumaneSociety
 
         public static Client GetClient(string userName, string password)
         {
+            //ask wade if instead of password it should be pass since that's what we are looking for
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Client client = new Client();
             var newClient = (from entry in db.Clients where entry.userName == userName && entry.pass == password select entry).First();
@@ -217,6 +218,9 @@ namespace HumaneSociety
         public static Employee EmployeeLogin(string userName, string password)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Employee employee = new Employee();
+            var login = (from entry in db.Employees where entry.userName == userName && entry.pass == password select entry).First();
+            return login;
             
 
         }
