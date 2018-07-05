@@ -31,11 +31,11 @@ namespace HumaneSociety
 
         }
 
-        public static object GetAnimalByID(int iD)
+        public static Animal GetAnimalByID(int iD)
         {
             //var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalData = from entry in db.Animals where entry.ID == iD select entry;
+            var animalData = (from entry in db.Animals where entry.ID == iD select entry).First();
             return animalData;
 
             
@@ -236,6 +236,12 @@ namespace HumaneSociety
         public static void AddUsernameAndPassword(Employee employee)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var updateEmployee = (from entry in db.Employees where entry.email == employee.email select entry).First();
+            updateEmployee.userName = employee.userName;
+            updateEmployee.pass = employee.pass;
+            db.Employees.InsertOnSubmit(updateEmployee);
+            db.SubmitChanges();
+
         }
 
         public static bool CheckEmployeeUserNameExist(string username)
