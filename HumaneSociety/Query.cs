@@ -15,7 +15,7 @@ namespace HumaneSociety
 
         public static Client GetClient(string userName, string password)
         {
-            throw new NotImplementedException();
+            
         }
 
         public static IQueryable<ClientAnimalJunction> GetUserAdoptionStatus(Client client)
@@ -48,10 +48,11 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        public static object RetrieveClients()
+        public static IEnumerable<Client> RetrieveClients()
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var 
+            var clientList = from entry in db.Clients select entry;
+            return clientList;
         }
 
         public static object GetStates()
@@ -213,6 +214,7 @@ namespace HumaneSociety
         public static Employee EmployeeLogin(string userName, string password)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            
 
         }
 
