@@ -167,6 +167,41 @@ namespace HumaneSociety
         public static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalUpdate = (from entry in db.Animals where entry.ID == animal.ID select entry).First();
+            if (updates.ContainsKey(1))
+            {
+                animalUpdate.Breed1.Catagory1.catagory1 = updates[1];
+            }
+            if (updates.ContainsKey(2))
+            {
+                animalUpdate.Breed1.breed1 = updates[2];
+            }
+            if (updates.ContainsKey(3))
+            {
+                animalUpdate.name = updates[3];
+            }
+            if (updates.ContainsKey(4))
+            {
+                animalUpdate.age = Int32.Parse(updates[4]);
+            }
+            if (updates.ContainsKey(5))
+            {
+                animalUpdate.demeanor = updates[5];
+            }
+            if (updates.ContainsKey(6))
+            {
+                animalUpdate.kidFriendly = bool.Parse(updates[6]);
+            }
+            if (updates.ContainsKey(7))
+            {
+                animalUpdate.petFriendly = bool.Parse(updates[7]);
+            }
+            if (updates.ContainsKey(8))
+            {
+                animalUpdate.weight = Int32.Parse(updates[8]);
+            }
+
+           
         }
 
         public static void RemoveAnimal(Animal animal)
