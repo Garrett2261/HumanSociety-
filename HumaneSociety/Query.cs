@@ -132,7 +132,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        public static object GetPendingAdoptions()
+        public static IEnumerable<ClientAnimalJunction> GetPendingAdoptions()
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var pendingAdoptions = from entry in db.ClientAnimalJunctions where entry.approvalStatus == "pending" select entry;
@@ -152,7 +152,7 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
-        public static object GetShots(Animal animal)
+        public static IEnumerable<AnimalShotJunction> GetShots(Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var animalShots = from entry in db.AnimalShotJunctions where entry.Animal_ID == animal.ID select entry;
@@ -247,6 +247,17 @@ namespace HumaneSociety
         public static bool CheckEmployeeUserNameExist(string username)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var checkUsername = from entry in db.Employees where entry.userName == username select entry;
+            if (checkUsername == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+            
+            
         }
     }
 }
