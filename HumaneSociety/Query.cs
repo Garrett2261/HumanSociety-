@@ -15,32 +15,48 @@ namespace HumaneSociety
 
         public static Client GetClient(string userName, string password)
         {
-            throw new NotImplementedException();
+            //ask wade if instead of password it should be pass since that's what we are looking for
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Client client = new Client();
+            var newClient = (from entry in db.Clients where entry.userName == userName && entry.pass == password select entry).First();
+            return newClient;
         }
 
-        public static object GetUserAdoptionStatus(Client client)
+        public static IQueryable<ClientAnimalJunction> GetUserAdoptionStatus(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var adoptionStatus = from entry in db.ClientAnimalJunctions where entry.client == client.ID select entry;
+            return adoptionStatus;
+
+
         }
 
-        public static object GetAnimalByID(int iD)
+        public static Animal GetAnimalByID(int iD)
         {
             //var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalData = from entry in db.Animals where entry.ID == iD select entry;
+            var animalData = (from entry in db.Animals where entry.ID == iD select entry).First();
             return animalData;
 
             
         }
 
-        public static void Adopt(object animal, Client client)
+        public static void Adopt(Animal animal, Client client)
         {
-            
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            ClientAnimalJunction clientAnimalJunction = new ClientAnimalJunction();
+            clientAnimalJunction.animal = animal.ID;
+            clientAnimalJunction.client = client.ID;
+            clientAnimalJunction.approvalStatus = "pending";
+            db.ClientAnimalJunctions.InsertOnSubmit(clientAnimalJunction);
+            db.SubmitChanges();
         }
 
-        public static object RetrieveClients()
+        public static IEnumerable<Client> RetrieveClients()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientList = from entry in db.Clients select entry;
+            return clientList;
         }
 
         public static object GetStates()
@@ -53,17 +69,40 @@ namespace HumaneSociety
 
         public static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Client client = new Client();
+            client.firstName = firstName;
+            client.lastName = lastName;
+            client.userName = username;
+            client.pass = password;
+            client.email = email;
+            client.UserAddress1.addessLine1 = streetAddress;
+            client.UserAddress1.zipcode = zipCode;
+            client.UserAddress1.USStates = state;
+            db.Clients.InsertOnSubmit(client);
+            db.SubmitChanges();
         }
 
-        public static void updateClient(Client client)
+        public static void UpdateClient(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData1 = from entry in db.Clients where entry.pass == client.pass select entry;
+            var clientData2 = from entry in db.Clients where entry.income == client.income select entry;
+            var clientData3 = from entry in db.Clients where entry.kids == client.kids select entry;
+            var clientData4 = from entry in db.Clients where entry.homeSize == client.homeSize select entry;
+            clientData1.First().pass = client.pass;
+            clientData2.First().income = client.income;
+            clientData3.First().kids = client.kids;
+            clientData4.First().homeSize = client.homeSize;
+            db.SubmitChanges();
         }
 
         public static void UpdateUsername(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData = from entry in db.Clients where entry.userName == client.userName select entry;
+            clientData.First().userName = client.userName;
+            db.SubmitChanges();
         }
 
         public static void UpdateEmail(Client client)
@@ -76,30 +115,44 @@ namespace HumaneSociety
 
         public static void UpdateAddress(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
+            clientData.First().UserAddress1.addessLine1 = client.UserAddress1.addessLine1;
+            clientData.First().UserAddress1.addressLine2 = client.UserAddress1.addressLine2;
+            clientData.First().UserAddress1.zipcode = client.UserAddress1.zipcode;
+            clientData.First().UserAddress1.USStates = client.UserAddress1.USStates;
+            db.SubmitChanges();
         }
 
         public static void UpdateFirstName(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
+            clientData.First().firstName = client.firstName;
+            db.SubmitChanges();
         }
 
-        public static object GetPendingAdoptions()
+        public static IEnumerable<ClientAnimalJunction> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var pendingAdoptions = from entry in db.ClientAnimalJunctions where entry.approvalStatus == "pending" select entry;
+            return pendingAdoptions;
         }
 
         public static void UpdateLastName(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var clientData = from entry in db.Clients where entry.ID == client.ID select entry;
+            clientData.First().lastName = client.lastName;
+            db.SubmitChanges();
         }
 
         public static void UpdateAdoption(bool v, ClientAnimalJunction clientAnimalJunction)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
-        public static object GetShots(Animal animal)
+        public static IEnumerable<AnimalShotJunction> GetShots(Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var animalShots = from entry in db.AnimalShotJunctions where entry.Animal_ID == animal.ID select entry;
@@ -108,12 +161,47 @@ namespace HumaneSociety
 
         public static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         }
 
         public static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalUpdate = (from entry in db.Animals where entry.ID == animal.ID select entry).First();
+            if (updates.ContainsKey(1))
+            {
+                animalUpdate.Breed1.Catagory1.catagory1 = updates[1];
+            }
+            if (updates.ContainsKey(2))
+            {
+                animalUpdate.Breed1.breed1 = updates[2];
+            }
+            if (updates.ContainsKey(3))
+            {
+                animalUpdate.name = updates[3];
+            }
+            if (updates.ContainsKey(4))
+            {
+                animalUpdate.age = Int32.Parse(updates[4]);
+            }
+            if (updates.ContainsKey(5))
+            {
+                animalUpdate.demeanor = updates[5];
+            }
+            if (updates.ContainsKey(6))
+            {
+                animalUpdate.kidFriendly = bool.Parse(updates[6]);
+            }
+            if (updates.ContainsKey(7))
+            {
+                animalUpdate.petFriendly = bool.Parse(updates[7]);
+            }
+            if (updates.ContainsKey(8))
+            {
+                animalUpdate.weight = Int32.Parse(updates[8]);
+            }
+
+           
         }
 
         public static void RemoveAnimal(Animal animal)
@@ -126,8 +214,12 @@ namespace HumaneSociety
 
         public static int? GetBreed()
         {
-            throw new NotImplementedException();
-            //Chris is working on
+            Breed breed = new Breed();
+            breed.breed1 = UserInterface.GetStringData("name", "breed");
+            breed.pattern = UserInterface.GetStringData("name", "pattern");
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalBreed = (from entry in db.Breeds where entry.breed1 == breed.breed1 && entry.pattern == breed.pattern select entry.ID).First();
+            return animalBreed;
         }
 
         public static int? GetLocation()
@@ -149,7 +241,8 @@ namespace HumaneSociety
             diet.food = UserInterface.GetStringData("name", "food");
             diet.amount = UserInterface.GetIntegerData("name", "amount");
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalDiet = from entry in db.DietPlans where entry.food == 
+            var animalDiet = (from entry in db.DietPlans where entry.food == diet.food && entry.amount == diet.amount select entry.ID).First();
+            return animalDiet;
         }
 
         public static void AddAnimal(Animal animal)
@@ -160,22 +253,46 @@ namespace HumaneSociety
         public static Employee EmployeeLogin(string userName, string password)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Employee employee = new Employee();
+            var login = (from entry in db.Employees where entry.userName == userName && entry.pass == password select entry).First();
+            return login;
+            
 
         }
 
         public static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Employee employee = new Employee();
+            var employeeUser = (from entry in db.Employees where entry.email == email && entry.employeeNumber == employeeNumber select entry).First();
+            return employeeUser;
         }
 
         public static void AddUsernameAndPassword(Employee employee)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var updateEmployee = (from entry in db.Employees where entry.email == employee.email select entry).First();
+            updateEmployee.userName = employee.userName;
+            updateEmployee.pass = employee.pass;
+            db.Employees.InsertOnSubmit(updateEmployee);
+            db.SubmitChanges();
+
         }
 
         public static bool CheckEmployeeUserNameExist(string username)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var checkUsername = from entry in db.Employees where entry.userName == username select entry;
+            if (checkUsername == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+            
+            
         }
     }
 }
