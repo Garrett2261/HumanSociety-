@@ -230,7 +230,8 @@ namespace HumaneSociety
 
         }
 
-        public static void GetLocation()
+        // changed the following getlocation method from void to int.  Useremployee.AddAnimal was complaining about it.  victor
+        public static int GetLocation()
         {
             Room room = new Room();
             room.name = UserInterface.GetStringData("name", "room");
