@@ -18,9 +18,10 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        public static object GetUserAdoptionStatus(Client client)
+        public static IQueryable<ClientAnimalJunction> GetUserAdoptionStatus(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var adoptionstatus = from entry in db.ClientAnimalJunctions where entry.approvalStatus == client select entry;
         }
 
         public static object GetAnimalByID(int iD)
@@ -106,7 +107,12 @@ namespace HumaneSociety
 
         public static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var shotupdated = (from entry in db.Shots where entry.name == v select entry).First();
+            if (shotupdated == null)
+            {
+                shotupdated = db.Shots.Where(s => s.name == v).FirstOrDefault();
+            }
         }
 
         public static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
@@ -126,9 +132,11 @@ namespace HumaneSociety
             return animalData;
         }
 
-        public static int? GetLocation()
+        public static void GetLocation()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            
+
         }
 
         public static int? GetDiet()
