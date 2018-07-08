@@ -27,8 +27,7 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var adoptionStatus = from entry in db.ClientAnimalJunctions where entry.client == client.ID select entry;
             return adoptionStatus;
-
-
+//            var adoptionstatus = from entry in db.ClientAnimalJunctions where entry.approvalStatus == client select entry;
         }
 
         public static Animal GetAnimalByID(int iD)
@@ -59,12 +58,11 @@ namespace HumaneSociety
             return clientList;
         }
 
-        public static object GetStates()
+        public static IQueryable<USState> GetStates()
         {
-            //Chris 
-
-
-
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var usStates = from item in db.USStates select item;
+            return usStates;
         }
 
         public static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
@@ -162,6 +160,11 @@ namespace HumaneSociety
         public static void UpdateShot(string v, Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var shotupdated = (from entry in db.Shots where entry.name == v select entry).First();
+            if (shotupdated == null)
+            {
+                shotupdated = db.Shots.Where(s => s.name == v).FirstOrDefault();
+            }
         }
 
         public static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
@@ -220,9 +223,14 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var animalBreed = (from entry in db.Breeds where entry.breed1 == breed.breed1 && entry.pattern == breed.pattern select entry.ID).First();
             return animalBreed;
+
+            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            //var animalData = from entry in db.Animals where entry.breed == breed select entry;
+            //return animalData;
+
         }
 
-        public static int? GetLocation()
+        public static void GetLocation()
         {
             Room room = new Room();
             room.name = UserInterface.GetStringData("name", "room");
@@ -247,7 +255,9 @@ namespace HumaneSociety
 
         public static void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
 
         public static Employee EmployeeLogin(string userName, string password)
