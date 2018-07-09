@@ -148,6 +148,9 @@ namespace HumaneSociety
         public static void UpdateAdoption(bool v, ClientAnimalJunction clientAnimalJunction)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var adoptionUpdated = from entry in db.ClientAnimalJunctions where Convert.ToBoolean(entry.approvalStatus) == Convert.ToBoolean(clientAnimalJunction.approvalStatus) select entry;
+            adoptionUpdated.First().approvalStatus = clientAnimalJunction.approvalStatus;
+            db.SubmitChanges();
         }
 
         public static IEnumerable<AnimalShotJunction> GetShots(Animal animal)
