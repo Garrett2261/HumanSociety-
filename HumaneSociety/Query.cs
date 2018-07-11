@@ -11,7 +11,9 @@ namespace HumaneSociety
         public static void RunEmployeeQueries(Employee employee, string v)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var runningEmployeeQueries = from entry in db.Employees where entry.firsttName == employee.firsttName && entry.lastName == employee.lastName && entry.employeeNumber == employee.employeeNumber && entry.email == employee.email select entry;
         }
+        
 
         public static Client GetClient(string userName, string password)
         {
@@ -234,7 +236,7 @@ namespace HumaneSociety
         }
 
         // changed the following getlocation method from void to int.  Useremployee.AddAnimal was complaining about it.  victor
-        public static int GetLocation()
+        public static int? GetLocation()
         {
             Room room = new Room();
             room.name = UserInterface.GetStringData("name", "room");
