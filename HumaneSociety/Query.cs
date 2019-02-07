@@ -8,10 +8,64 @@ namespace HumaneSociety
 {
     public static class Query
     {
+        private delegate void EmployeeActions(Employee employee);
         public static void RunEmployeeQueries(Employee employee, string v)
         {
+            EmployeeActions create = EmployeeCreate;
+            EmployeeActions read = EmployeeRead;
+            EmployeeActions update = EmployeeUpdate;
+            EmployeeActions delete = EmployeeDelete;
+            switch (v)
+            {
+                case "create":
+                    create(employee);
+                    break;
+                case "read":
+                    read(employee);
+                    break;
+                case "update":
+                    update(employee);
+                    break;
+                case "delete":
+                    delete(employee);
+                    break;
+                default:
+                    throw new Exception();
+            }
+        }
+        public static void EmployeeCreate(Employee employee)
+        {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var runningEmployeeQueries = from entry in db.Employees where entry.firsttName == employee.firsttName && entry.lastName == employee.lastName && entry.employeeNumber == employee.employeeNumber && entry.email == employee.email select entry;
+            Employee employeeNew = employee;
+            db.Employees.InsertOnSubmit(employeeNew);
+            db.SubmitChanges();
+        }
+        public static void EmployeeRead(Employee employee)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var read = db.Employees.Where(e => e.employeeNumber == employee.employeeNumber).First();
+            Console.WriteLine(read.firsttName);
+            Console.WriteLine(read.lastName);
+            Console.WriteLine(read.userName);
+            Console.WriteLine(read.employeeNumber);
+            Console.WriteLine(read.email);
+        }
+        public static void EmployeeUpdate(Employee employee)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var updatedEmployee = db.Employees.Where(e => e.employeeNumber == employee.employeeNumber).First();
+            updatedEmployee.firsttName = employee.firsttName;
+            updatedEmployee.lastName = employee.lastName;
+            updatedEmployee.employeeNumber = employee.employeeNumber;
+            updatedEmployee.email = employee.email;
+            db.SubmitChanges();
+        }
+        public static void EmployeeDelete(Employee employee)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var deletedEmployee = db.Employees.Where(c => c.employeeNumber == employee.employeeNumber).First();
+            db.Employees.DeleteOnSubmit(deletedEmployee);
+            db.SubmitChanges();
         }
         
 
@@ -70,6 +124,7 @@ namespace HumaneSociety
         public static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            
             Client client = new Client();
             client.firstName = firstName;
             client.lastName = lastName;
@@ -79,6 +134,7 @@ namespace HumaneSociety
             client.UserAddress1.addessLine1 = streetAddress;
             client.UserAddress1.zipcode = zipCode;
             client.UserAddress1.USStates = state;
+            //client.userAddress set equal to fk on UserAddresses table
             db.Clients.InsertOnSubmit(client);
             db.SubmitChanges();
         }
